@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Custom Slider </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <!-- Link Swiper's CSS -->
+    <script src="./js/jquery-1.11.2.min.js"></script>
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    
+    <div class="slider-wrapper">
+        <ul class="slide-ul">
+            <li class="list-slide"></li>
+            <li class="list-slide"></li>
+            <li class="list-slide"></li>
+            <li class="list-slide"></li>
+        </ul>
+        <div class="prev">Prev</div>
+        <div class="next">Next</div>
+        <div class="auto">Auto Slide</div>
+    </div>
+</div>
+
+<script>
+    window.Slider = {
+        count: 0,
+        liLen: $('li').length,
+        w: $('li').innerWidth(),
+        formSlider: function() {
+            $('.slide-ul').css('width', (this.w + 20) * this.liLen);
+        },
+        prev: function(){
+             --this.count;
+             if(this.count == 0){alert('No more slides');}
+             else{
+                 var left = parseInt(this.count * this.w);
+                 $('ul').animate({'left': -left})
+             }
+        },
+        next: function(){
+
+             ++this.count;
+             if(this.count == this.liLen){alert('No more slides');}
+             else{
+                 var left = parseInt(this.count * this.w);
+                 $('ul').animate({'left': -left})
+             }
+        },
+        autoSlide: function(){
+            var $this = this;
+
+            setInterval(function(){
+             
+             ++$this.count;
+
+             if ( $this.count == $this.liLen ) $this.count = 0;
+
+             if( $this.count < $this.liLen ){
+                 var left = parseInt($this.count * $this.w);
+                        $('ul').animate({'left': -left})  
+                }
+            }, 1500)
+        }
+
+    };
+
+    Slider.formSlider();
+    $('.prev').on('click', function(){
+        Slider.prev()
+    });
+    $('.next').on('click', function(){
+        Slider.next()
+    });
+    $('.auto').on('click', function(){
+        Slider.autoSlide()
+    });
+    
+    
+</script>
+<style>
+    .slider-wrapper {
+        overflow-x: hidden;
+        position: relative;
+    }
+
+    .slider-wrapper .list-slide{
+        float: left;
+        box-sizing: border-box;
+        width: 1099px;
+        height: 300px;
+        border:1px solid red; 
+    }
+    .slide-ul{
+        position: relative;
+        margin: 0;
+        list-style: none;
+    }
+    .prev, .next, .auto {
+    position: absolute;
+    z-index: 10;
+    background-color: #d71c1c;
+    color: white;
+    font-size: 12px;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    }
+    .next, .prev{
+        top:calc(50% - 15px );
+    }
+    .prev{
+        left:0px;
+    }
+    .next{
+        right: 0px;
+    }
+    .auto {
+        right: 0px;
+        bottom: 0;
+    }
+</style>
+</body>
+</html>
